@@ -46,8 +46,6 @@ func TestGetString(t *testing.T) {
 }
 
 func TestGetNumber(t *testing.T) {
-	t.Parallel()
-
 	SetRand(getMockRnd([]byte("100")))
 
 	// Table Driven tests
@@ -62,20 +60,19 @@ func TestGetNumber(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		t.Run(tc.name, func(ts *testing.T) {
-			tc := tc
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			res, err := GetNumber(tc.length)
 			if err != nil {
-				assert.Equal(ts, err.Error(), tc.errStr)
+				assert.Equal(t, err.Error(), tc.errStr)
 			}
-			assert.Equal(ts, tc.expected, res)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }
 
 func TestGetGUID(t *testing.T) {
-	t.Parallel()
-
 	SetRand(getMockRnd([]byte("100")))
 
 	// Table Driven tests
@@ -89,11 +86,12 @@ func TestGetGUID(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		t.Run(tc.name, func(ts *testing.T) {
-			tc := tc
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			res, err := GetGUID(tc.length)
-			assert.NoError(ts, err)
-			assert.Equal(ts, tc.expected, res)
+			assert.NoError(t, err)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }
@@ -103,21 +101,19 @@ func TestGetAlphaNum(t *testing.T) {
 
 	SetRand(getMockRnd([]byte("100")))
 
-	t.Run("Output is equal", func(ts *testing.T) {
+	t.Run("Output is equal", func(t *testing.T) {
 		res, err := GetAlphaNum(6)
-		assert.NoError(ts, err)
-		assert.Equal(ts, "NMM000", res)
+		assert.NoError(t, err)
+		assert.Equal(t, "NMM000", res)
 	})
 
-	t.Run("Zero length", func(ts *testing.T) {
+	t.Run("Zero length", func(t *testing.T) {
 		_, err := GetAlphaNum(0)
-		assert.Equal(ts, buildError("GetAlphaNum", "provided zero length to generate value").Error(), err.Error())
+		assert.Equal(t, buildError("GetAlphaNum", "provided zero length to generate value").Error(), err.Error())
 	})
 }
 
 func TestGetFromValuesRange(t *testing.T) {
-	t.Parallel()
-
 	SetRand(getMockRnd([]byte("100")))
 
 	// Table Driven tests
@@ -134,13 +130,14 @@ func TestGetFromValuesRange(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		t.Run(tc.name, func(ts *testing.T) {
-			tc := tc
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			res, err := GetFromValuesRange(tc.alphabet, tc.length)
 			if err != nil {
-				assert.Equal(ts, err.Error(), tc.errStr)
+				assert.Equal(t, err.Error(), tc.errStr)
 			}
-			assert.Equal(ts, tc.expected, res)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }
