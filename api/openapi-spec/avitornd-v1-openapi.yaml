@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  title: Avito random value generator API
+  title: AvitoPRO random value generator API
   description: Service realizes JSON API, that is working over HTTP. Each generation assigns unique ID for getting random value result.
   version: 1.0.0
   contact:
@@ -65,14 +65,14 @@ paths:
                 msg: OK
                 result: 9bbdb
         '404':
-          description: Requested ID is not found
+          description: The requested ID is not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
               example:
                 code: 404
-                msg: Requested ID is not found
+                msg: The requested ID is not found
 
 components:
   schemas:
