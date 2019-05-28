@@ -1,0 +1,107 @@
+openapi: 3.0.2
+info:
+  title: Avito random value generator API
+  description: Service realizes JSON API, that is working over HTTP. Each generation assigns unique ID for getting random value result.
+  version: 1.0.0
+  contact:
+    name: Vladislav Dmitriyev
+    email: d7vladislav@gmail.com
+servers:
+  - url: '{server}/api/{version}'
+    variables:
+      server:
+        default: http://127.0.0.1:8888 # Local server
+      version:
+        default: v1
+paths:
+  /generate:
+    post:
+      operationId: generateValuev1
+      summary: Generates random value and it idendtifier
+      requestBody:
+        description: 'Allows to set type and length of result value in request.</br>
+        Parameters:</br>
+        **type** - type of returned value. Can be one of: *string*, *number*, *guid*, *numstr* </br>
+        **length** - length of returned value.'
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+      responses:
+        '201':
+          description: The random value was successfully generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              example:
+                code: 201
+                msg: OK
+                result:
+                  id: 1
+
+  /retrieve/{requestId}:
+    get:
+      operationId: getResultValuev1
+      summary: Gets the value by id from *generate* method
+      parameters:
+        - name: requestId
+          in: path
+          schema:
+            type:
+              integer
+          required: true
+          description: Integer number of ID to get generated result value
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              example:
+                code: 200
+                msg: OK
+                result: 9bbdb
+        '404':
+          description: Requested ID is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              example:
+                code: 404
+                msg: Requested ID is not found
+
+components:
+  schemas:
+    Request:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [string, number, guid, numstr]
+          default: guid
+          example: guid
+        length:
+          type: integer
+          default: 0
+          example: 5
+    Response:
+      type: object
+      properties:
+        code:
+          type: integer
+          default: 0
+        msg:
+          type: string
+          default: ''
+        result:
+          type: object
+          default: ''
+      required:
+      - code
+      - msg
+
+
