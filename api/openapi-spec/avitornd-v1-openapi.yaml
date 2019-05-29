@@ -65,14 +65,14 @@ paths:
                 msg: OK
                 result: 9bbdb
         '404':
-          description: The requested ID is not found
+          description: The requested ID not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
               example:
                 code: 404
-                msg: The requested ID is not found
+                msg: The requested ID not found
 
 components:
   schemas:
