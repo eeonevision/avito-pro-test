@@ -60,14 +60,24 @@ func getRandomValueByType(t string, length int) (string, error) {
 	switch t {
 	case TypeString:
 		res, err = rndgen.GetString(length)
+		break
 	case TypeNumber:
 		var tmp *big.Int
 		tmp, err = rndgen.GetNumber(length)
 		res = tmp.String()
+		break
 	case TypeGUID:
 		res, err = rndgen.GetGUID(length)
+		break
 	case TypeAlphaNum:
 		res, err = rndgen.GetAlphaNum(length)
+		break
+	default:
+		if len(t) == 0 {
+			break
+		}
+		res, err = rndgen.GetFromValuesRange(t, length)
+		break
 	}
 
 	return res, err
