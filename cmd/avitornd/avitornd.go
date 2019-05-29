@@ -25,7 +25,7 @@ func main() {
 	var host string
 	var port string
 
-	flag.StringVar(&host, "host", "127.0.0.1", "the host address for starting api")
+	flag.StringVar(&host, "host", "0.0.0.0", "the host address for starting api")
 	flag.StringVar(&port, "port", "8888", "the port number for starting api")
 	flag.Parse()
 
