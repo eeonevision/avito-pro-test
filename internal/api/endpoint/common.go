@@ -6,8 +6,8 @@ package endpoint
 
 import (
 	"encoding/json"
+	"math/big"
 	"net/http"
-	"strconv"
 
 	"github.com/eeonevision/avito-pro-test/internal/pkg/idempotent"
 	"github.com/eeonevision/avito-pro-test/pkg/rndgen"
@@ -61,9 +61,9 @@ func getRandomValueByType(t string, length int) (string, error) {
 	case TypeString:
 		res, err = rndgen.GetString(length)
 	case TypeNumber:
-		var tmp int
+		var tmp *big.Int
 		tmp, err = rndgen.GetNumber(length)
-		res = strconv.Itoa(tmp)
+		res = tmp.String()
 	case TypeGUID:
 		res, err = rndgen.GetGUID(length)
 	case TypeAlphaNum:

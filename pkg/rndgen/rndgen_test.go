@@ -5,6 +5,7 @@ Copyright 2019 Vladislav Dmitriyev.
 package rndgen
 
 import (
+	"math/big"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -52,11 +53,11 @@ func TestGetNumber(t *testing.T) {
 	tests := []struct {
 		name     string
 		length   int
-		expected int
+		expected *big.Int
 		errStr   string
 	}{
-		{"Output is equal", 3, 100, ""},
-		{"Zero length", 0, 0, buildError("GetNumber", "provided zero length to generate value").Error()},
+		{"Output is equal", 3, big.NewInt(100), ""},
+		{"Zero length", 0, nil, buildError("GetNumber", "provided zero length to generate value").Error()},
 	}
 
 	for _, tc := range tests {
@@ -67,7 +68,7 @@ func TestGetNumber(t *testing.T) {
 			if err != nil {
 				assert.Equal(t, err.Error(), tc.errStr)
 			}
-			assert.Equal(t, tc.expected, res)
+			assert.Equal(t, tc.expected.String(), res.String())
 		})
 	}
 }

@@ -9,7 +9,7 @@ package rndgen
 import (
 	"crypto/rand"
 	"io"
-	"strconv"
+	"math/big"
 
 	"github.com/google/uuid"
 )
@@ -37,17 +37,20 @@ func GetString(length int) (string, error) {
 }
 
 // GetNumber generates random integer value with specified length in argument.
-func GetNumber(length int) (int, error) {
+func GetNumber(length int) (*big.Int, error) {
+	var zero *big.Int
+
 	if length == 0 {
-		return 0, buildError("GetNumber", "provided zero length to generate value")
+		return zero, buildError("GetNumber", "provided zero length to generate value")
 	}
 
 	res, err := generate(numberBytes, length)
 	if err != nil {
-		return 0, err
+		return zero, err
 	}
 
-	num, err := strconv.Atoi(string(res))
+	num := big.NewInt(0)
+	num.SetString(string(res), 10)
 
 	return num, err
 }
