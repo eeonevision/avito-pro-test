@@ -6,6 +6,7 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"math/big"
 	"net/http"
 
@@ -59,6 +60,7 @@ func getRandomValueByType(t string, length int) (string, error) {
 		break
 	default:
 		if len(t) == 0 {
+			err = errors.New("the type field is empty")
 			break
 		}
 		res, err = rndgen.GetFromValuesRange(t, length) // if type not nil, then it is range type
