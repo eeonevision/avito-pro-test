@@ -70,7 +70,8 @@ paths:
               example:
                 code: 200
                 msg: OK
-                result: 9bbdb
+                result: 
+                  value: 9bbdb
         '404':
           description: The requested ID not found
           content:

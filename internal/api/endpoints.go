@@ -47,6 +47,10 @@ func (s *server) handlePostGenerate() http.HandlerFunc {
 
 // handleRetrieve gets the value by id from generate endpoint.
 func (s *server) handleGetRetrieve() http.HandlerFunc {
+	type response struct {
+		Value `json:"value"`
+	}
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 
@@ -57,7 +61,7 @@ func (s *server) handleGetRetrieve() http.HandlerFunc {
 			return
 		}
 
-		writeJSONResponse(http.StatusOK, "OK", value, w)
+		writeJSONResponse(http.StatusOK, "OK", response{value}, w)
 	}
 }
 
