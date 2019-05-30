@@ -11,24 +11,14 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/eeonevision/avito-pro-test/internal/api/endpoint"
 	"github.com/eeonevision/avito-pro-test/internal/pkg/idempotent"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 )
 
-func buildMuxRouter() *mux.Router {
-	router := mux.NewRouter()
-	router.NotFoundHandler = http.HandlerFunc(endpoint.NotFoundHandler)
-
-	api := router.PathPrefix("/api").Subrouter()
-
-	v1 := api.PathPrefix("/v1").Subrouter()
-
-	v1.HandleFunc("/generate", endpoint.PostGenerateHandler).Methods(http.MethodPost)
-	v1.HandleFunc("/retrieve/{requestID}", endpoint.GetRetrieveHandler).Methods(http.MethodGet)
-
-	return router
+type server struct {
+	db     *idempotent.DB
+	router *mux.Router
 }
 
 // Serve mthod starts new http server with setted params in HTTPServer struct.
@@ -38,16 +28,19 @@ func Serve(address string, logger *logrus.Logger) {
 		"address": address,
 	}).Info("starting server ...")
 
+	s := &server{ // no need to create separated method for instantiate new server struct
+		db:     idempotent.NewDB(),
+		router: mux.NewRouter(),
+	}
+	s.routes() // initialize routes into mux router
+
 	srv := &http.Server{
 		Addr:         address,
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
 		IdleTimeout:  time.Second * 60,
-		Handler:      buildMuxRouter(),
+		Handler:      s.router,
 	}
-
-	// Create db for idempotent behaviour of API
-	endpoint.IdempotentDB = idempotent.NewDB()
 
 	// Run our server in a goroutine so that it doesn't block.
 	go func() {

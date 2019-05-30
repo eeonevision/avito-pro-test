@@ -9,19 +9,19 @@ import "sync"
 // DB struct keep map as simple data store.
 type DB struct {
 	sync.Mutex
-	data map[int]string
+	data map[uint]string
 }
 
 // NewDB returns new initialised DB struct.
 func NewDB() *DB {
-	return &DB{data: map[int]string{}}
+	return &DB{data: map[uint]string{}}
 }
 
 // Insert returns the ID of inserted string value in DB.
 // Mutex defends from concurrent changing of data map.
-func (i *DB) Insert(value string) int {
+func (i *DB) Insert(value string) uint {
 	i.Lock()
-	lastID := len(i.data) + 1
+	lastID := uint(len(i.data) + 1)
 	i.data[lastID] = value
 	i.Unlock()
 
@@ -29,6 +29,6 @@ func (i *DB) Insert(value string) int {
 }
 
 // GetValueByID return string value by given ID.
-func (i *DB) GetValueByID(id int) string {
+func (i *DB) GetValueByID(id uint) string {
 	return i.data[id]
 }
