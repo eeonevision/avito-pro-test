@@ -30,12 +30,12 @@ type baseResponse struct {
 func writeJSONResponse(code int, message string, data interface{}, w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(code)
-	trs, _ := json.Marshal(baseResponse{
+	res, _ := json.Marshal(baseResponse{
 		Code:   code,
 		Msg:    message,
 		Result: data,
 	})
-	w.Write(trs)
+	w.Write(res)
 }
 
 func getRandomValueByType(t string, length int) (string, error) {
