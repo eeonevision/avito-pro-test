@@ -6,6 +6,9 @@ info:
   contact:
     name: Vladislav Dmitriyev
     email: d7vladislav@gmail.com
+tags:
+- name: rndgen
+  description: Everything about generating random value
 servers:
   - url: '{server}/api/{version}'
     variables:
@@ -16,6 +19,8 @@ servers:
 paths:
   /generate:
     post:
+      tags:
+      - rndgen
       operationId: generateValuev1
       summary: Generates random value and it idendtifier
       requestBody:
@@ -43,6 +48,8 @@ paths:
 
   /retrieve/{requestId}:
     get:
+      tags:
+      - rndgen
       operationId: getResultValuev1
       summary: Gets the value by id from *generate* method
       parameters:
