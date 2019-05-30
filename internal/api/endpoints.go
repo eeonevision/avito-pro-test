@@ -48,7 +48,7 @@ func (s *server) handlePostGenerate() http.HandlerFunc {
 // handleRetrieve gets the value by id from generate endpoint.
 func (s *server) handleGetRetrieve() http.HandlerFunc {
 	type response struct {
-		Value `json:"value"`
+		Value string `json:"value"`
 	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
