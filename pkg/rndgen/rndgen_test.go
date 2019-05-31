@@ -21,7 +21,7 @@ func (rm randomMock) Read(p []byte) (n int, err error) {
 	return copy(p, rm.seed), nil
 }
 
-// getMockRnd return mocked random number generator
+// getMockRnd return mocked random number generator.
 func getMockRnd(seed []byte) randomMock {
 	rnd := randomMock{&mock.Mock{}, seed}
 	rnd.mock.On("Read", rnd.seed).Return(0, nil)

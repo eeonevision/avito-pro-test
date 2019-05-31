@@ -1,3 +1,7 @@
+/*
+Copyright 2019 Vladislav Dmitriyev.
+*/
+
 package api
 
 import "net/http"

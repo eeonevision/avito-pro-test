@@ -6,26 +6,23 @@ package api
 
 import (
 	"encoding/json"
-	"errors"
-	"math/big"
 	"net/http"
 
-	"github.com/eeonevision/avito-pro-test/pkg/rndgen"
-)
-
-// Necessary types for calling the methods of random generator.
-const (
-	TypeGUID     = "guid"
-	TypeString   = "string"
-	TypeNumber   = "number"
-	TypeAlphaNum = "alphanum"
-	//TypeRangeValues = "range"
+	"github.com/eeonevision/avito-pro-test/internal/api/models"
 )
 
 type baseResponse struct {
 	Code   int         `json:"code,omitempty"`
 	Msg    string      `json:"msg,omitempty"`
 	Result interface{} `json:"result,omitempty"`
+}
+
+// decode does simple decoding stuff and validation of the struct fields.
+func decode(r *http.Request, v models.OK) error {
+	if err := json.NewDecoder(r.Body).Decode(v); err != nil {
+		return err
+	}
+	return v.Validate()
 }
 
 func writeJSONResponse(code int, message string, data interface{}, w http.ResponseWriter) {
@@ -37,35 +34,4 @@ func writeJSONResponse(code int, message string, data interface{}, w http.Respon
 		Result: data,
 	})
 	w.Write(res)
-}
-
-func getRandomValueByType(t string, length int) (string, error) {
-	var res string
-	var err error
-
-	switch t {
-	case TypeString:
-		res, err = rndgen.GetString(length)
-		break
-	case TypeNumber:
-		var tmp *big.Int
-		tmp, err = rndgen.GetNumber(length)
-		res = tmp.String()
-		break
-	case TypeGUID:
-		res, err = rndgen.GetGUID(length)
-		break
-	case TypeAlphaNum:
-		res, err = rndgen.GetAlphaNum(length)
-		break
-	default:
-		if len(t) == 0 {
-			err = errors.New("the type field is empty")
-			break
-		}
-		res, err = rndgen.GetFromValuesRange(t, length) // if type not nil, then it is range type
-		break
-	}
-
-	return res, err
 }
