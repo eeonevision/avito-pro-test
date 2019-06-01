@@ -29,7 +29,13 @@ docker build -t avitornd:local -f deployments/docker/avitornd-prod.Dockerfile .
 docker run -p 8888:8888 avitornd:local
 ```
 
-Запуск через Docker-hub
+Запуск из публичного репозитория DockerHub
 ```
 docker run -p 8888:8888 maintianone/avitornd:latest
+```
+
+### Документация к RESTful API
+Документация написана по стандарту OASv3 и расположена в директории
+```
+api/openapi-spec
 ```
