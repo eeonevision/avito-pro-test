@@ -1,4 +1,6 @@
 # Тестовое задание стажера в юнит AvitoPRO
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Feeonevision%2Favito-pro-test.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Feeonevision%2Favito-pro-test?ref=badge_shield)
+
 
 ### Необходимо реализовать сервис на ~~PHP~~Golang для генерации случайных значений.
 
@@ -39,3 +41,6 @@ docker run -p 8888:8888 maintianone/avitornd:latest
 ```
 api/openapi-spec
 ```
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Feeonevision%2Favito-pro-test.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Feeonevision%2Favito-pro-test?ref=badge_large)
